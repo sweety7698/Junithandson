@@ -75,7 +75,7 @@ public class CustomerTest {
 	    
 	}
 	@Test
-	public void firstAndLastNotEqual(){
+	public void firstAndLast(){
 	    c = new Customer("3690397258253690", "Sadana" , "Burugula", "Reddycolony", 9666802, "bsadana572@gmail.");
 	    assertNotEquals(c.getFirstName(), c.getLastName());
 	    c = new Customer("3690397258253690", "Sadana" , "sadana", "Reddy colony", 9666802, "bsadana572@gmail.");
