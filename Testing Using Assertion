@@ -1,0 +1,114 @@
+//Customer.java
+
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+public class Customer {
+	private String aadharCardNo;
+	private String firstName;
+	private String lastName;
+	private String address;
+	private long mobileNo;
+	private String emailId;
+	
+	
+	public Customer(String aadharCardNo, String firstName, String lastName, String address, long mobileNo,String emailId) {
+		super();
+		this.aadharCardNo = aadharCardNo;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.address = address;
+		this.mobileNo = mobileNo;
+		this.emailId = emailId;
+	}
+
+	public String getFirstName() {
+		return firstName;
+	}
+
+	public String getEmailId() {
+		return emailId;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+
+	 private static Pattern aadhaarPattern = Pattern.compile("^[2-9]{1}[0-9]{11}$");
+
+	
+	 public static boolean isValidAadharNo(String name)
+	 {
+	  Matcher matcher = aadhaarPattern.matcher(name);
+	  return matcher.find();
+	 }
+  
+
+	}
+
+
+
+//CustomerTest.java
+
+
+import static org.junit.Assert.*;
+import org.junit.Assert;
+import org.junit.Test;
+
+public class CustomerTest {
+	//Write the code for testing assertion using JUNIT
+	
+	Customer c;
+	@Test
+	public void aadharValidation(){
+	    assertTrue(Customer.isValidAadharNo("369039725825")==true);
+	    assertTrue(Customer.isValidAadharNo("36903972582")==false);
+	    assertFalse(Customer.isValidAadharNo("0690397258253690")==true);
+	    assertFalse(Customer.isValidAadharNo("169039725825526356")==true);
+	    
+	}
+	
+	@Test
+	public void testEmail(){
+	    c = new Customer("3690397258253690", "Sadana" , "Burugula", "Rc", 966687, "bsadana572@gmail.");
+	    assertNotNull(c.getEmailId());
+	    
+	}
+	@Test
+	public void firstAndLastNotEqual(){
+	    c = new Customer("3690397258253690", "Sadana" , "Burugula", "Reddycolony", 9666802, "bsadana572@gmail.");
+	    assertNotEquals(c.getFirstName(), c.getLastName());
+	    c = new Customer("3690397258253690", "Sadana" , "sadana", "Reddy colony", 9666802, "bsadana572@gmail.");
+	    assertNotEquals(c.getFirstName(), c.getLastName());
+	}
+}
+
+
+
+//UserInterface.java
+
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
+import static org.junit.Assert.*;
+public class UserInterface
+{
+    public static void main(String args[])
+    {
+        Result result=JUnitCore.runClasses(CustomerTest.class);
+        
+        if(result.getFailureCount()==0)
+        {
+            System.out.println("There are No Failures...\n Test Passed...");
+        }
+        else
+        {
+            for(Failure failure: result.getFailures())
+            
+            {
+                System.out.println("The Test execution failed...\n"+failure.getMessage());
+            }
+        }
+        System.out.println("Result"+result.wasSuccessful());
+    }
+}
