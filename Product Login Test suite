@@ -1,0 +1,298 @@
+//login.java
+
+public class Login {
+	private String userName;
+	private String Password;
+	public Login(String userName, String password) {
+		super();
+		this.userName = userName;
+		Password = password;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getPassword() {
+		return Password;
+	}
+	public void setPassword(String password) {
+		Password = password;
+	}
+
+
+}
+
+
+
+//loginDao.java
+
+
+import java.util.*;
+public class LoginDAO {
+	ArrayList<Login> loginlist = new ArrayList<Login>(); 
+	public boolean addLogin(Login obj)
+	{
+	    boolean flag=false;
+	    if (obj != null){
+	        flag = loginlist.add(obj);    
+	       
+	    }
+	    
+	    return flag;
+
+	}
+	
+	public boolean deleteLogin(Login obj)
+	{
+	    boolean flag = false;
+	    if(obj!=null){
+		    flag = loginlist.remove(obj);
+		 
+	    }
+	    
+	    return flag;
+	}
+
+
+}
+
+
+
+//logintest.java
+
+import org.junit.Test;
+import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
+
+
+public class LoginTest {
+
+    private Login login = new Login("gunjan","gfikegr");
+    private LoginDAO Id = new LoginDAO();
+ 
+    @Test
+    public void testNull()
+    {
+        assertFalse(Id.addLogin(null));
+    }
+    @Test
+    public void addLoginFirstTime()
+    {
+        login.setUserName("gunjan");
+        login.setPassword("kjfdk");
+        assertTrue(Id.addLogin(login));
+    }
+    @Test
+    public void testAddAndDelete()
+    {
+        Id.addLogin(login);
+        assertTrue(Id.deleteLogin(login));
+    }
+    @Test
+    public void testAdd()
+    {
+        Id.addLogin(login);
+        assertTrue(Id.addLogin(login));
+    }
+    @Test
+    public void testDelete()
+    {
+        assertFalse(Id.deleteLogin(null));
+    }
+    @Test
+    public void doubleDelete()
+    {
+        Id.addLogin(login);
+        Id.addLogin(login);
+        Id.deleteLogin(login);
+        assertTrue(Id.deleteLogin(login));
+    }
+}
+
+  
+    
+
+
+//product.java
+
+
+public class Product {
+	private String productId;
+	private String productName;
+	private double price;
+	public Product(){
+	    String productId="";
+	    String productName="";
+	    double price=0.0;
+	}
+	public String getProductId() {
+		return productId;
+	}
+	public void setProductId(String productId) {
+		this.productId = productId;
+	}
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	public Product(String productId, String productName, double price) {
+		super();
+		this.productId = productId;
+		this.productName = productName;
+		this.price = price;
+	}
+	
+
+}
+
+
+//productDAO.java
+
+
+import java.util.ArrayList;
+
+public class ProductDAO {
+	ArrayList<Product> productlist = new ArrayList<Product>(); 
+	public boolean addProduct(Product obj)
+	{
+	    boolean flag=false;
+	    if(obj != null){
+	         flag =productlist.add(obj);
+	    }
+	    return flag;
+	}
+	
+	public boolean deleteProduct(Product obj)
+	{
+	    boolean flag=false;
+	    if(obj!=null)
+	    {
+		    flag = productlist.remove(obj);
+	
+	    }
+	    return flag;
+	}
+	}
+
+
+
+//ProductTest.java
+
+
+import org.junit.Test;
+import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
+
+public class ProductTest {
+
+  Product p = new Product("hgjkd","dgseuygf",4521.24988);
+  ProductDAO pd = new ProductDAO();
+ 
+ @Test
+ public void addProductasNull()
+ {
+     assertFalse(pd.addProduct(null));
+ }
+ 
+ @Test
+  public void testParameterised()
+ {
+     Product pr = new Product();
+     assertTrue(pd.addProduct(pr));
+ }
+ 
+  @Test
+  public void addProduct()
+ {
+    p.setProductId("tgfid");
+    p.setProductName("cfghjdsk");
+    p.setPrice(4864666.4687);
+     assertTrue(pd.addProduct(p));
+ }
+ @Test
+  public void addDeleteProduct()
+ {
+     pd.addProduct(p);
+     assertTrue(pd.deleteProduct(p));
+ }
+ @Test
+  public void testAdd()
+ {
+     pd.addProduct(p);
+     assertTrue(pd.addProduct(p));
+ }
+ @Test
+  public void testDelete()
+ {
+     assertFalse(pd.deleteProduct(null));
+ }
+ 
+ 
+  @Test
+  public void doubleDelete()
+ {
+    pd.addProduct(p);
+    pd.addProduct(p);
+    pd.deleteProduct(p);
+    assertTrue(pd.deleteProduct(p));
+ }
+ 
+ 
+}
+
+
+
+//testsuiteruner.java
+
+
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+import org.junit.runners.Suite.SuiteClasses;
+
+//write code here
+@RunWith(Suite.class)
+@SuiteClasses({LoginTest.class,ProductTest.class})
+public class TestSuiteRunner {
+
+
+}
+
+
+//userinterface.java
+
+
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
+import static org.junit.Assert.*;
+public class UserInterface
+{
+    public static void main(String args[])
+    {
+        Result result=JUnitCore.runClasses(TestSuiteRunner.class);
+        
+        if(result.getFailureCount()==0)
+        {
+            System.out.println("There are No Failures...\n Test Passed...");
+        }
+        else
+        {
+            for(Failure failure: result.getFailures())
+            
+            {
+                System.out.println("The Test execution failed...\n"+failure.getMessage());
+            }
+        }
+        System.out.println("Result"+result.wasSuccessful());
+    }
+}
