@@ -1,0 +1,127 @@
+//EBBill.java
+
+
+
+import java.util.Scanner;
+
+public class EBBill {
+	private int units;
+	
+	public EBBill(int units)
+	{
+		this.units = units;
+	}
+	public double calculateBillAmount()
+	{
+		double amount=0.0;
+		if(units > 0){
+    		if(units <= 50)
+    	  	{
+    	        amount = units * 2.60;
+    	    } 
+    	  	else if (units <= 100)
+    	  	{
+    	  		amount = 130 + ((units - 50) * 3.25);
+    	  	}
+    	  	else if(units <= 200)
+    	  	{
+    	  		amount = 130 + 162.50 + ((units - 100 ) * 5.26);
+    	  	}
+    	  	else if(units <= 1000)
+    	  	{
+    		   	amount = 130 + 162.50 + 526 + ((units - 200 ) * 7.75); 
+    	  	}
+    	  	else if(units <= 5000) {
+	  	      amount = 130 + 162.50 + 526 + 6200 + ((units - 1000) * 10);
+    	  	}
+    	  	else {
+    	  	    amount = 0.0;
+    	  	}
+	  	   
+	  	  }
+	
+		 return amount;
+		}
+}
+
+
+
+//EBBILLTEST.java
+
+
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import org.junit.Test;
+
+
+public class EBBillTest
+{
+    
+    //Write JUNIT Test Code
+    EBBill e;
+    @Test
+    public void upTo50(){
+        e = new EBBill(50);
+        assertTrue(e.calculateBillAmount()==130);
+    }
+     @Test
+    public void upTo100(){
+        e = new EBBill(100);
+        assertTrue(e.calculateBillAmount()==292.5);
+    }
+    
+    @Test
+    public void upTo200(){
+        e= new EBBill(200);
+        assertTrue(e.calculateBillAmount()==818.5);
+    }
+    
+    @Test
+    public void upTo1000(){
+        e = new EBBill(1000);
+        assertTrue(e.calculateBillAmount()== 7018.5);
+    }
+    
+    @Test
+    public void upTo5000(){
+        e = new EBBill(5000);
+        assertTrue(e.calculateBillAmount()==47018.5);
+    }
+    
+    @Test
+    public void eLSe(){
+        e = new EBBill(0);
+        assertTrue(e.calculateBillAmount()==0.0);
+    }
+}
+
+
+//userinterface.jva
+
+
+import org.junit.runner.JUnitCore;
+import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
+import static org.junit.Assert.*;
+public class UserInterface
+{
+    public static void main(String args[])
+    {
+        Result result=JUnitCore.runClasses(EBBillTest.class);
+        
+        if(result.getFailureCount()==0)
+        {
+               System.out.println("There are No Failures...\n Test Passed...");
+        }
+        else
+        {
+            for(Failure failure: result.getFailures())
+            
+            {
+                 System.out.println("The Test execution failed...\n"+failure.getMessage());
+            }
+        }
+        System.out.println("Result"+result.wasSuccessful());
+    }
+}
+
